@@ -126,7 +126,7 @@ int mips_reg_write(struct uc_struct *uc, unsigned int *regs, void *const *vals, 
                          MIPS_CPU(uc, mycpu)->env.active_tc.PC = *(mipsreg_t *)value;
                          // force to quit execution and flush TB
                          uc->quit_request = true;
-                         uc_emu_stop(uc);
+                         uc_emu_soft_stop(uc);
                          break;
                 case UC_MIPS_REG_CP0_CONFIG3:
                          MIPS_CPU(uc, mycpu)->env.CP0_Config3 = *(mipsreg_t *)value;

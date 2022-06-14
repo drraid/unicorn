@@ -1058,13 +1058,13 @@ int x86_reg_write(struct uc_struct *uc, unsigned int *regs, void *const *vals, i
                         X86_CPU(uc, mycpu)->env.eip = *(uint32_t *)value;
                         // force to quit execution and flush TB
                         uc->quit_request = true;
-                        uc_emu_stop(uc);
+                        uc_emu_soft_stop(uc);
                         break;
                     case UC_X86_REG_IP:
                         X86_CPU(uc, mycpu)->env.eip = *(uint16_t *)value;
                         // force to quit execution and flush TB
                         uc->quit_request = true;
-                        uc_emu_stop(uc);
+                        uc_emu_soft_stop(uc);
                         break;
                     case UC_X86_REG_CS:
                         ret = uc_check_cpu_x86_load_seg(&X86_CPU(uc, mycpu)->env, R_CS, *(uint16_t *)value);
@@ -1284,19 +1284,19 @@ int x86_reg_write(struct uc_struct *uc, unsigned int *regs, void *const *vals, i
                         X86_CPU(uc, mycpu)->env.eip = *(uint64_t *)value;
                         // force to quit execution and flush TB
                         uc->quit_request = true;
-                        uc_emu_stop(uc);
+                        uc_emu_soft_stop(uc);
                         break;
                     case UC_X86_REG_EIP:
                         X86_CPU(uc, mycpu)->env.eip = *(uint32_t *)value;
                         // force to quit execution and flush TB
                         uc->quit_request = true;
-                        uc_emu_stop(uc);
+                        uc_emu_soft_stop(uc);
                         break;
                     case UC_X86_REG_IP:
                         WRITE_WORD(X86_CPU(uc, mycpu)->env.eip, *(uint16_t *)value);
                         // force to quit execution and flush TB
                         uc->quit_request = true;
-                        uc_emu_stop(uc);
+                        uc_emu_soft_stop(uc);
                         break;
                     case UC_X86_REG_CS:
                         X86_CPU(uc, mycpu)->env.segs[R_CS].selector = *(uint16_t *)value;

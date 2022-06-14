@@ -522,7 +522,7 @@ static void *_timeout_fn(void *arg)
     if (!uc->emulation_done) {
         uc->timed_out = true;
         // force emulation to stop
-        uc_emu_stop(uc);
+        uc_emu_soft_stop(uc);
     }
 
     return NULL;
@@ -541,7 +541,7 @@ static void hook_count_cb(struct uc_struct *uc, uint64_t address, uint32_t size,
     uc->emu_counter++;
 
     if (uc->emu_counter > uc->emu_count)
-        uc_emu_stop(uc);
+        uc_emu_soft_stop(uc);
 }
 
 static void clear_deleted_hooks(uc_engine *uc)
@@ -681,8 +681,7 @@ uc_err uc_emu_start(uc_engine* uc, uint64_t begin, uint64_t until, uint64_t time
 }
 
 
-UNICORN_EXPORT
-uc_err uc_emu_stop(uc_engine *uc)
+uc_err uc_emu_soft_stop(uc_engine *uc)
 {
     if (uc->emulation_done)
         return UC_ERR_OK;
@@ -696,6 +695,14 @@ uc_err uc_emu_stop(uc_engine *uc)
 
     return UC_ERR_OK;
 }
+
+UNICORN_EXPORT
+uc_err uc_emu_stop(uc_engine *uc)
+{
+    uc->user_stop_request = true;
+    return uc_emu_soft_stop(uc);
+}
+
 
 // find if a memory range overlaps with existing mapped regions
 static bool memory_overlap(struct uc_struct *uc, uint64_t begin, size_t size)
@@ -1019,7 +1026,7 @@ uc_err uc_mem_protect(struct uc_struct *uc, uint64_t address, size_t size, uint3
     // if EXEC permission is removed, then quit TB and continue at the same place
     if (remove_exec) {
         uc->quit_request = true;
-        uc_emu_stop(uc);
+        uc_emu_soft_stop(uc);
     }
 
     return UC_ERR_OK;
