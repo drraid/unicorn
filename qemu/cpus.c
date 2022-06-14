@@ -134,7 +134,14 @@ static bool tcg_exec_all(struct uc_struct* uc)
             uc->quit_request = false;
             r = tcg_cpu_exec(uc, env);
 
-            // quit current TB but continue emulating?
+            // A user called uc_emu_stop()?
+            if (uc->user_stop_request) {
+                uc->user_stop_request = false;
+                finish = true;
+                break;
+            }
+
+            // qit current TB but continue emulating?
             if (uc->quit_request) {
                 // reset stop_request
                 uc->stop_request = false;

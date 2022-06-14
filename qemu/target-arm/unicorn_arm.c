@@ -162,7 +162,7 @@ int arm_reg_write(struct uc_struct *uc, unsigned int *regs, void* const* vals, i
                     ARM_CPU(uc, mycpu)->env.regs[15] = (*(uint32_t *)value & ~1);
                     // force to quit execution and flush TB
                     uc->quit_request = true;
-                    uc_emu_stop(uc);
+                    uc_emu_soft_stop(uc);
 
                     break;
                 case UC_ARM_REG_C1_C0_2:

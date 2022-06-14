@@ -226,7 +226,8 @@ struct uc_struct {
     int size_recur_mem; // size for mem access when in a recursive call
 
     bool init_tcg;      // already initialized local TCGv variables?
-    bool stop_request;  // request to immediately stop emulation - for uc_emu_stop()
+    bool user_stop_request; // for actual uc_emu_stop, not just soft stop
+    bool stop_request;  // request to immediately stop emulation - for uc_emu_soft_stop
     bool quit_request;  // request to quit the current TB, but continue to emulate - for uc_mem_protect()
     bool emulation_done;  // emulation is done by uc_emu_start()
     bool timed_out;     // emulation timed out, that can retrieve via uc_query(UC_QUERY_TIMEOUT)

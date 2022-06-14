@@ -198,7 +198,7 @@ int arm64_reg_write(struct uc_struct *uc, unsigned int *regs, void* const* vals,
                     ARM_CPU(uc, mycpu)->env.pc = *(uint64_t *)value;
                     // force to quit execution and flush TB
                     uc->quit_request = true;
-                    uc_emu_stop(uc);
+                    uc_emu_soft_stop(uc);
                     break;
                 case UC_ARM64_REG_SP:
                     ARM_CPU(uc, mycpu)->env.xregs[31] = *(uint64_t *)value;
